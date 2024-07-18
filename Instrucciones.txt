@@ -1,0 +1,53 @@
+1.- Activar entorno en Anaconda prompt:
+	conda activate {nombreEntorno}
+
+2.- Es importante todos los comandos ejecutar en el directorio de yolov7:
+	cd C:\PotHole Detection\YOLO-V7-Custom-Model-Pot-Hole-Detection\yolov7
+
+Entrenamiento desde la época 0:
+	python train.py --workers 1 --device cpu --batch-size 4 --data data/pothole.yaml --img 640 640 --cfg cfg/training/yolov7.yaml --weights 'yolov7.pt' --name yolov7-custom --hyp data/hyp.scratch.custom.yaml
+
+Reanudar entrenamiento desde la última época (last.pt):
+1: Se debe tener la carpeta checkpoints en la ubicación yolov7
+2: Se debe copiar los checkpoints a esta carpeta, el entrenamiento comenzará desde el archivo weights/last.pt (la extensión pt es por PyTorch - que es la librería que maneja el entrenamiento)
+3: ejecutar siguiente comando:
+	python train.py --resume
+
+
+Iniciar tensorboard
+
+	tensorboard --logdir runs/train
+
+Ingresar dirección en navegador:
+	http://localhost:6006/
+
+
+Predicción Imágenes
+
+python detect.py --weights Prediccion/best.pt --conf 0.25 --img-size 640 --source inference\images\PotHole2.jpg
+
+Predicción Videos: 
+1: Colocar el video en inference\videos en formato .mp4
+
+python detect.py --weights Prediccion/best.pt --conf 0.25 --img-size 640 --source inference\videos\Bache1.mp4
+
+Las predicciones se guardan en: 
+
+El resultado de las predicciones se almacena en:
+	yolov7/runs/detect/exp{numeroDeEjecucion}
+
+En caso que no se genere correctamente el .mp4 de la predicción, ejecutar:
+
+pip install opencv-python==4.5.5.64
+
+
+Se coloca comentarios en: 
+train.py
+	ln 441, 471, 486, 622 
+test.py
+	ln 105, 254  
+metrics.py
+	ln 188
+ dentro de yolov7
+
+
